@@ -11,17 +11,11 @@
     box-sizing: border-box;
 }
 
-body {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .game-container {
     height: 550px;
     width: 60rem;
     margin: 0 auto;
+    margin-top: 1rem;
     background-image: url("../sprites/background-day.png");
     overflow: hidden;
     position: relative;

@@ -19,7 +19,7 @@ class Obstacle {
         this.element.style.marginLeft = toPx(this.x);
         this.element.style.rowGap = toPx(OBSTACLE_GAP);
         this.element.classList.add("obstacle");
-        obstacleContainer.appendChild(this.element);
+        obstacleContainer[this.game.gameIndex].appendChild(this.element);
 
         this.increaseSpeed();
     }

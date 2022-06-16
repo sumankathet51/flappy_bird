@@ -1,5 +1,15 @@
 class Bird {
-    constructor(x, y, accl, velocity, element, height, width) {
+    constructor(
+        x,
+        y,
+        accl,
+        velocity,
+        element,
+        height,
+        width,
+        gameIndex,
+        highScore
+    ) {
         this.x = x;
         this.y = y;
         this.accl = accl;
@@ -28,8 +38,14 @@ class Bird {
             },
         ];
         this.frame = 0;
-        const baseHeight = parseInt(getComputedStyle(base).height);
-        const gameHeight = parseInt(getComputedStyle(gameContainer).height);
+        this.gameIndex = gameIndex;
+        this.highScore = highScore;
+        console.log(base);
+
+        const baseHeight = parseInt(getComputedStyle(base[this.gameIndex]).height);
+        const gameHeight = parseInt(
+            getComputedStyle(gameContainers[this.gameIndex]).height
+        );
         this.maxDown = gameHeight - baseHeight - this.height + BIRD_OFFSET;
     }
 

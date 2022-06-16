@@ -10,35 +10,67 @@
 </head>
 
 <body>
+    <div class="container">
+        <div class="game-container">
+            <div class="game-score">
+                0
+            </div>
+            <div class="bird"></div>
+            <div class="base"></div>
+            <div class="obstacles"></div>
+            <div class="game-over">
+                <img src="/sprites/gameover.png" alt="">
+                <div class="stats">
+                    <div>
+                        <p>
+                            Score
+                        </p>
+                        <p class="score">0 </p>
 
-    <div class="game-container">
-        <div class="game-score">
-            0
-        </div>
-        <div class="bird"></div>
-        <div class="base"></div>
-        <div class="obstacles"></div>
-        <div class="game-over">
-            <img src="/sprites/gameover.png" alt="">
-            <div class="stats">
-                <div>
-                    <p>
-                        Score
-                    </p>
-                    <p id="score">0 </p>
+                        <p>
+                            High Score
+                        </p>
+                        <p class="high-score">0</p>
+                        <button type="button" class="reset-btn"> Restart </button>
+                    </div>
 
-                    <p>
-                        High Score
-                    </p>
-                    <p id="high-score">0</p>
-                    <button type="button" id="reset-btn"> Restart </button>
                 </div>
-
+            </div>
+            <div class="start">
+                <img src="/sprites/start-screen.png" alt="">
             </div>
         </div>
-        <div class="start">
-            <img src="/sprites/start-screen.png" alt="">
+
+        <div class="game-container instance-2">
+            <div class="game-score">
+                0
+            </div>
+            <div class="bird"></div>
+            <div class="base"></div>
+            <div class="obstacles"></div>
+            <div class="game-over">
+                <img src="/sprites/gameover.png" alt="">
+                <div class="stats">
+                    <div>
+                        <p>
+                            Score
+                        </p>
+                        <p class="score">0 </p>
+
+                        <p>
+                            High Score
+                        </p>
+                        <p class="high-score">0</p>
+                        <button type="button" class="reset-btn"> Restart </button>
+                    </div>
+
+                </div>
+            </div>
+            <div class="start">
+                <img src="/sprites/start-screen.png" alt="">
+            </div>
         </div>
+
     </div>
 
     <script src="/js/constants.js"></script>

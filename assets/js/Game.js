@@ -1,5 +1,5 @@
 class Game {
-    constructor() {
+    constructor(gameContainer, gameIndex, key) {
         this.state = {
             current: 0,
             ready: 0,
@@ -9,6 +9,14 @@ class Game {
         this.base = 0;
         this.speed = 5;
         this.score = 0;
+        this.gameWindow = gameContainer;
+        this.gameIndex = gameIndex;
+        this.key = key;
+        this.highScore = localStorage.getItem(`score${gameIndex}`) ?
+            localStorage.getItem("score") :
+            0;
+        console.log(gameIndex);
+        highScore[this.gameIndex].innerText = this.highScore;
     }
 
     initialize() {
@@ -17,9 +25,11 @@ class Game {
             200,
             2.5,
             this.speed,
-            document.querySelector(".bird"),
+            birds[this.gameIndex],
             27,
-            33
+            33,
+            this.gameIndex,
+            this.highScore
         );
         this.bird.initialize();
         this.obstacles = [];
@@ -42,13 +52,13 @@ class Game {
                 this.flapInterval = setInterval(() => {
                     this.bird.flap();
                 }, 300);
-                gameOver.style.top = "100%";
-                gameOver.style.display = "none";
-                start.style.top = "10%";
+                gameOver[this.gameIndex].style.top = "100%";
+                gameOver[this.gameIndex].style.display = "none";
+                start[this.gameIndex].style.top = "10%";
                 break;
             case this.state.game:
                 this.animate();
-                start.style.top = "100%";
+                start[this.gameIndex].style.top = "100%";
                 clearInterval(this.flapInterval);
                 this.interval = setInterval(() => {
                     if (this.bird.isJumping) return;
@@ -60,13 +70,13 @@ class Game {
                 }, 100);
                 break;
             case this.state.over:
-                if (this.score > highestScore) {
-                    highestScore = this.score;
-                    highScore.innerText = highestScore;
-                    localStorage.setItem("score", this.score);
+                if (this.score > this.highScore) {
+                    this.highScore = this.score;
+                    highScore[this.gameIndex].innerText = this.highScore;
+                    localStorage.setItem(`score${this.gameIndex}`, this.score);
                 }
-                gameOver.style.top = "10%";
-                gameOver.style.display = "block";
+                gameOver[this.gameIndex].style.top = "10%";
+                gameOver[this.gameIndex].style.display = "block";
 
                 clearInterval(this.interval);
         }
@@ -75,8 +85,9 @@ class Game {
     animate() {
         if (this.obstacles[0].x < -52) {
             this.score++;
-            scoreContainer.innerText = this.score;
-            currentScore.innerText = this.score;
+            console.log(this.gameIndex, scoreContainer);
+            scoreContainer[this.gameIndex].innerText = this.score;
+            currentScore[this.gameIndex].innerText = this.score;
             this.obstacles[0].element.remove();
             this.obstacles.splice(0, 1);
             const newObstacle = new Obstacle(randomInt(150, 300), this);
@@ -96,7 +107,8 @@ class Game {
 
     addEvent() {
         document.addEventListener("keydown", (e) => {
-            if (e.code === "ArrowUp" || e.code === "Space") {
+            e.preventDefault();
+            if (e.code === this.key) {
                 switch (this.state.current) {
                     case this.state.ready:
                         this.changeState(this.state.game);
@@ -109,6 +121,11 @@ class Game {
                 }
             }
         });
+
+        resetButtons[this.gameIndex].addEventListener("click", (e) => {
+            e.preventDefault();
+            this.restartGame();
+        });
     }
 
     restartGame() {
@@ -116,8 +133,8 @@ class Game {
         this.base = 0;
         this.speed = 5;
         this.score = 0;
-        scoreContainer.innerText = this.score;
-        currentScore.innerText = this.score;
+        scoreContainer[this.gameIndex].innerText = this.score;
+        currentScore[this.gameIndex].innerText = this.score;
         this.obstacles.forEach((obstacle) => {
             obstacle.element.remove();
         });
@@ -131,9 +148,11 @@ class Game {
             200,
             2.5,
             this.speed,
-            document.querySelector(".bird"),
+            birds[this.gameIndex],
             27,
-            33
+            33,
+            this.gameIndex,
+            this.highScore
         );
 
         this.bird.initialize();
@@ -149,14 +168,14 @@ class Game {
     }
 }
 
-let highestScore = localStorage.getItem("score") ?
-    localStorage.getItem("score") :
-    0;
-highScore.innerText = highestScore;
-let game = new Game();
-game.initialize();
+// let game = new Game();
+// game.initialize();
 
-document.getElementById("reset-btn").addEventListener("click", (e) => {
-    e.preventDefault();
-    game.restartGame();
-});
+const games = [];
+keys = ["Space", "ArrowUp", "KeyW"];
+for (let index = 0; index < gameContainers.length; index++) {
+    const game = new Game(gameContainers[index], index, keys[index]);
+    game.initialize();
+    games.push(game);
+}
+console.log(games);
